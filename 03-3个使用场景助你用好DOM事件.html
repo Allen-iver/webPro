@@ -27,44 +27,22 @@
 
   <script>
     // 代理
-    // const ui = document.querySelector('.list')
-    // ui.addEventListener('click', e => {
-    //   const t = e.target || e.srcElement
-    //   console.log(t);
-    //   if(t.classList.contains('item')) {
-    //     console.log(t.id)
-    //   } else {
-    //     id = t.parentElement.id
-    //     if(t.classList.contains('edit')) {
-    //       console.log(id)
-    //     } else if (t.classList.contains('delete')) {
-    //       console.log(id);
-    //     }
-    //   }
-    // })
-    
-    const ui = document.querySelector('.list')
-    ui.addEventListener('click', e => {
+    const ul = document.querySelector('.list')
+    ul.addEventListener('click', e => {
       const t = e.target || e.srcElement
+      console.log(t);
       if (t.classList.contains('item')) {
-        console.log(123)
+        console.log('123')
       } else {
-        id = t.parentElement.id
+        const id = t.parentElement.id
         if (t.classList.contains('edit')) {
           console.log(id)
         } else if (t.classList.contains('delete')) {
           console.log(id)
         }
       }
-
-
     })
-
-
-
-
-
-
+    
 
     // 防抖--简单实现
     const ipt = document.querySelector('input')
@@ -80,6 +58,8 @@
         console.log(e.target.value);
       }, 500)
     })
+
+
     
     // 代码2
     // const ipt = document.querySelector('input')
