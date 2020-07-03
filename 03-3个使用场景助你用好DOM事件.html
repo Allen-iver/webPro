@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>03-3个使用场景助你用好DOM事件</title>
+  <style>
+    li span { cursor: pointer; }
+  </style>
+</head>
+
+<body>
+
+  <input type="text">
+  <ul class="list">
+    <li class="item" id="item1">
+      项目1 <span class="edit">编辑</span> <span class="delete">删除</span>
+    </li>
+    <li class="item" id="item2">
+      项目2 <span class="edit">编辑</span> <span class="delete">删除</span>
+    </li>
+    <li class="item" id="item3">
+      项目3 <span class="edit">编辑</span> <span class="delete">删除</span>
+    </li>
+  </ul>
+
+  <script>
+    // 代理
+    // const ui = document.querySelector('.list')
+    // ui.addEventListener('click', e => {
+    //   const t = e.target || e.srcElement
+    //   console.log(t);
+    //   if(t.classList.contains('item')) {
+    //     console.log(t.id)
+    //   } else {
+    //     id = t.parentElement.id
+    //     if(t.classList.contains('edit')) {
+    //       console.log(id)
+    //     } else if (t.classList.contains('delete')) {
+    //       console.log(id);
+    //     }
+    //   }
+    // })
+    
+    const ui = document.querySelector('.list')
+    ui.addEventListener('click', e => {
+      const t = e.target || e.srcElement
+      if (t.classList.contains('item')) {
+        console.log(123)
+      } else {
+        id = t.parentElement.id
+        if (t.classList.contains('edit')) {
+          console.log(id)
+        } else if (t.classList.contains('delete')) {
+          console.log(id)
+        }
+      }
+
+
+    })
+
+
+
+
+
+
+
+    // 防抖--简单实现
+    const ipt = document.querySelector('input')
+    let timeout = null
+    ipt.addEventListener('input', e => {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null
+      }
+
+      timeout = setTimeout(() => {
+        e.target.value;
+        console.log(e.target.value);
+      }, 500)
+    })
+    
+    // 代码2
+    // const ipt = document.querySelector('input')
+    // const debounce = (func, wait = 0) => {
+    //   let timeout = null
+    //   let args
+    //   function debounced(...arg) {
+    //     args = arg
+    //     if(timeout) {
+    //       clearTimeout(timeout)
+    //       timeout = null
+    //     }
+    //     // 以Promise的形式返回函数执行结果
+    //     return new Promise((res, rej) => {
+    //     timeout = setTimeout(async () => {
+    //         try {
+    //           const result = await func.apply(this, args)
+    //           console.log(result)
+    //           res(result) 
+    //         } catch(e) {
+    //           console.log(e)
+    //           rej(e)
+    //         }
+    //       }, wait)
+
+    //     })
+
+    //   }
+
+    //   // 允许取消
+    //   function cancel() {
+    //     clearTimeout(timeout)
+    //     timeout = null
+    //   }
+
+    //   // 允许立即执行
+    //   function flush() {
+    //     cancel()
+    //     return func.apply(this, args)
+    //   }
+
+    //   debounced.cancel = cancel
+    //   debounced.flush = flush
+
+    //   return debounced
+
+    // }
+
+
+
+
+
+  </script>
+
+
+
+
+</body>
+
+</html>
