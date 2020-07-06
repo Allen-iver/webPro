@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+      let student={
+        age: 20,
+        name: '官人',
+        sex: "男",
+        arr: [{ id: '1', name: 'allen' }, {id: '2', name: 'cherry'}],
+      }
+      console.log(student);
+
+      let {age,name, ...params} = student;
+      console.log(params);
+      
+      let info = {...student, age: 23};
+      console.log(info);
+      
+      // // func1:
+      // const param = (({name,sex}) => ({name, sex}))(student)
+      // console.log(param) // {name: "官人"，sex: "男"}
+      // // func2:
+      // let {age,arr,...params} = student
+      // console.log(params)  // {name: "官人"，sex: "男"}
+      // let {age, name, ...params} = student
+      // console.log(params);
+
+      // let person = {
+      //   name: 'allen',
+      //   age: 23,
+      //   weight: '140kg',
+      //   height: '170cm'
+      // }
+      // console.log(person);
+      // let info = {...person, age: 20};
+      // console.log(info);
+      
+    </script>
+
+</body>
+
+</html>
