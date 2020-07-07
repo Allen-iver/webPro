@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关于JavaScript的数据类型</title>
+</head>
+
+<body>
+
+  <script>
+
+    /**
+    JavaScript的数据类型可以分为7种:
+      基础数据类型: 
+        空(null)
+        数字(Number)
+        字符串(String)
+        布尔型(Boolean)
+        未定义(Undefined)
+        符号(Symbol)
+      引用数据类型:
+        对象(Object)
+
+      区别:
+      基础类型的数据在被引用或者拷贝时,是值传递,也就是说会创建一个完全相等的变量;而引用数据类型只是创建一个指针指向原有的变量,实际上两个变量是"共享"这个数据的,
+      并没有重新创建一个新的数据.
+
+      Undefined:
+      Undefined是一个特殊的数据累心,它只有一个值,也就是undefined.可以通过下面几种方式来得到undefined:
+       a.引用已经声明但未初始化的变量;
+       b.引用未定义的对象属性;
+       c.执行无返回值的函数;
+       d.执行void表达式;
+       e.全局常量window.undefined或undefined;
+
+      Null:
+      Null数据类型和Undefined类似,只有唯一的一个值null,都可以表示空值,甚至我们通过"=="来比较它们是否相等的时候得到的结果都是true,但null是JavaScript保留关键字,而Undefined只是一个常量.
+      也就是说我们可以声明名称为Undefined的变量(虽然只能在老版本的IE浏览器中给它重新赋值),但将null作为变量使用时则会报错;
+
+      Boolean:
+      Boolean 数据类型只有两个值：true 和 false，分别代表真和假;
+
+      Number:
+      两个重要值
+      Number是数值类型,有2个特殊数值值得注意一下,即NaN和Infinity.
+      NaN（Not a Number）通常在计算失败的时候会得到该值。要判断一个变量是否为 NaN，则可以通过 Number.isNaN 函数进行判断。
+      Infinity 是无穷大，加上负号 “-” 会变成无穷小，在某些场景下比较有用，比如通过数值来表示权重或者优先级，Infinity 可以表示最高优先级或最大权重。
+      
+      String:
+      String 类型是最常用的数据类型了，关于它的基础 API 函数大家应该比较熟悉了，这里我就不多介绍了。下面通过一道笔试题来重点介绍它的使用场景。
+      面试题:
+      千位分隔符是指为了方便识别较大数字，每隔三位数会加入 1 个逗号，该逗号就是千位分隔符。如果要编写一个函数来为输入值的数字添加千分位分隔符，该怎么实现呢？
+
+      Symbol:
+      Symbol是ES6中引入的新数据类型,它表示一个唯一的常量,通过Symbol函数来创建对应的数据类型,创建时可以添加变量描述,该变量描述在传入时会被强制转换成字符串进行存储.
+
+
+
+    */
+
+    // undefined
+    {
+      console.log('--------------undefined-------------')
+      var a;
+      console.log(a)
+      var o = {}
+      console.log(o.b)
+      let relations = function (a) {
+        a = a + 1;
+        // return a;
+      }
+      console.log(relations(1));
+      console.log(void (0));
+      console.log(window.undefined, undefined)
+
+      let x = 3
+      let fn = (() => {
+        console.log('0~5')
+      })
+      x > 0 && x < 5 ? fn() : void 0;
+
+      for (var i = 0; i < 10; i++) {
+        setTimeout(() => {
+          // console.log(i); // 循环执行10次10
+        })
+      }
+
+      for (let i = 0; i < 10; i++) {
+        setTimeout(() => {
+          // console.log(i) // 0~9
+        })
+      }
+
+      // 变量提升
+      function test() {
+        console.log(a)
+        var a = 200
+
+        // 变量提升之后(变量声明会提升到作用域顶端)
+        // var a;
+        // console.log(a)
+        // a = 200
+      }
+      test()
+
+      // 函数提升(整个代码块提升到它所在的作用域的最开始执行)
+      console.log(bar)
+      function bar() {
+        console.log(1)
+      }
+      //ƒ bar() {
+      //   console.log(1)
+      // }
+      // 执行顺序相当于:
+      function bar() {
+        console.log(1)
+        // return 1
+      }
+      console.log(bar)
+
+      foo(); // 1
+
+      // var foo;
+
+      function foo() {
+        console.log(1)
+      }
+
+      foo = function () {
+        console.log(2)
+      }
+
+
+      // 如何判断一个变量的值是否为undefined呢?
+      // 方式一(不可行,比如null,数值0,空字符串等)
+      let k;
+      console.log(k) // undefined
+      if (!k) {
+        console.log(123);
+      }
+      // 方式二(可行但存在一些问题,比如k未定义时会报错,影响程序向下执行)
+      if (k === undefined) {
+        console.log(456);
+      }
+      // 方式三(可行)
+      if (typeof k === 'undefined') {
+        console.log(789);
+      }
+
+    }
+
+    // null
+    {
+      console.log('---------------null---------------')
+      console.log(null == undefined)
+      var a = undefined
+      console.log(a)
+      var b = null
+      console.log(b);
+    }
+
+    // Boolean
+    {
+      console.log('--------------Boolean--------------')
+      function getWeek(week) {
+        const dict = ['日', '一', '二', '三', '四', '五', '六'];
+        if (week) return `星期${dict[week]}`;
+        /**
+          这里在if语句中就进行了类型转换,将week变量转换成Boolean数据类型,而0,空字符串,null,undefined在转换时都会返回false.所以这段代码在输入0的时候不会返回
+          "星期日",而返回Undefined.
+          我们在做强制类型转换的时候一定要考虑这个问题
+        */
+
+      }
+      console.log(getWeek('0')); // 星期日
+      console.log(getWeek(0)); // Undefined
+    }
+
+    // Number
+    {
+      console.log('---------------Number--------------');
+      var a = 'abc';
+      console.log(parseInt(a)); // NaN
+
+      // 进制转换: 当我们需要将其他进制的整数转换成十进制显示的时候可以使用 parseInt 函数，该函数第一个参数为数值或字符串，第二个参数为进制数，默认为 10，当进制数转换失败时会返回 NaN。所以，如果在数组的 map 函数的回调函数中直接调用 parseInt，那么会将数组元素和索引值都作为参数传入。
+      console.log(['0', '1', '2'].map(parseInt)); // [0, NaN, NaN]
+      console.log(parseInt("10")); // 10
+      console.log(parseInt("19", 10)); // 10+9=19
+      console.log(parseInt("11", 10)) // 10+1=11
+      console.log(parseInt("10", 10)); // 10+0=10
+      console.log(parseInt("17", 8)); // 8+7=15
+      console.log(parseInt("010")); // 不定: 10或者8
+
+      // 而将十进制转换成其他进制时，可以通过 toString 函数来实现。
+      console.log((100).toString(2)); // 1100100
+      console.log((100).toString(8)); // 144
+
+      /**
+        精度问题:
+        0.1+0.2 !== 0.3 // false
+        出现这种情况的原因在与计算的时候,Javascript引擎会先将十进制数转换为二进制,然后进行加法运算,再讲所得结果转化为十进制.在进制转换过程中如果小数位是无限的,就会出现误差.
+        Math.pow(Math.pow(5, 1/2), 2) // 5.000000000000001
+
+        对于这个问题的解决方法也很简单,那就是消除无限小数位.
+        一种方式是先转换成整数进行计算，然后再转换回小数，这种方式适合在小数位不是很多的时候。比如一些程序的支付功能 API 以“分”为单位，从而避免使用小数进行计算。
+        还有另一种方法就是舍弃末尾的小数位。比如对上面的加法就可以先调用 toPrecision 截取 12 位，然后调用 parseFloat 函数转换回浮点数。
+
+
+      */
+      console.log(0.1 + 0.2 == 0.3); // false
+
+      console.log(0.1 + 0.2);
+      console.log(parseFloat((0.1 + 0.2).toPrecision(12)));
+      console.log(Math.pow(Math.pow(5, 1 / 2), 2)); // 5.000000000000001
+      console.log(parseFloat((Math.pow(Math.pow(5, 1 / 2), 2)).toPrecision(12)));
+
+    }
+
+    // String
+    {
+      console.log('---------------String-------------');
+      var num = '32132323224232.00';
+      function sep(n) {
+        let [i, c] = n.toString().split(/(\.\d+)/)
+        return i.split('').reverse().map((c, idx) => (idx + 1) % 3 === 0 ? ',' + c : c).reverse().join('').replace(/^,/, '') + c
+      }
+      console.log(sep(num)) //32,132,323,224,232.00
+      function sep2(n) {
+        let str = n.toString()
+        str.indexOf('.') < 0 ? str += '.' : void 0
+        return str.replace(/(\d)(?=(\d{3})+\.)/g, '$1,').replace(/\.$/, '')
+      }
+      console.log(sep2(num)) //32,132,323,224,232.00
+    }
+
+    // Symbol
+    {
+      console.log('---------------Symbol---------------');
+      var a = Symbol('1');
+      var b = Symbol(1);
+      console.log(a.desc === b.desc) // true
+      var _a = Symbol('1')
+      console.log(_a == a); // false
+
+      /**
+        基于上面的特性，Symbol 属性类型比较适合用于两类场景中：常量值和对象属性。
+
+        a.避免常量值重复使用
+        b.避免对象属性覆盖
+
+      */
+
+      const KEY = {
+        alibaba: 'A',
+        baidu: 'B',
+        bytedance: 'B',
+      }
+      function getValue(key) {
+        switch (key) {
+          case 'A':
+            console.log(123);
+            break;
+          case 'B':
+            console.log(456);
+            break;
+        }
+      }
+      // const KEY = {
+      //   alibaba: Symbol(),
+      //   baidu: Symbol(),
+      //   bytedance: Symbol(),
+      // }
+      // function getValue(key) {
+      //   console.log(key);
+      //   switch (key) {
+      //     case 'A':
+      //       console.log(123);
+      //       break;
+      //     case 'B':
+      //       console.log(456);
+      //       break;
+      //   }
+      // }
+      getValue(KEY.alibaba);
+      
+      function fn (o) {
+        console.log(o)
+        const s = Symbol()
+        o[s] = 'zzz'
+        console.log(o.Symbol);
+        
+      }
+      let obj = {user: {id: 1, name: 'lw'}}
+      fn(obj);
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+  </script>
+
+
+
+</body>
+
+</html>
