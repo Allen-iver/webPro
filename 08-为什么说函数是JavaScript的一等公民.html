@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>为什么说函数是javascript的一等公民</title>
+</head>
+<body>
+  
+  <script>
+    /**
+      数据类型与函数是很多高级语言中最重要的两个概念，前者用来存储数据，后者用来存储代码。
+      JavaScript 中的函数相对于数据类型而言更加复杂，它可以有属性，也可以被赋值给一个变量，
+      还可以作为参数被传递......正是这些强大特性让它成了 JavaScript 的“一等公民”。
+
+      this关键字
+      this是Javascript的一个关键字，一般指向调用它的对象。
+      this指向的应该是一个对象，更具体地说是函数执行的“上下文对象”。其次这个对象指向的是“调用它”的对象，
+      如果调用它的不是对象或者对象不存在，则会指向全局对象（严格模式下为undefined）。
+
+
+
+
+
+    
+    
+    
+    */
+
+    {
+      // 代码1
+      var o = {
+        fn() {
+          console.log(this)
+        }
+      }
+      o.fn() // o
+      
+      // 代码2
+      class A {
+        fn () {
+          console.log(this)
+        }
+      }
+      var a = new A()
+      a.fn() // a
+
+      // 代码3
+      function fn() {
+        console.log(this)
+      }
+      fn(); // 浏览器：Window；Node.js：global
+
+      // （1）如果在函数 fn2() 中调用函数 fn()，那么当调用函数 fn2() 的时候，函数 fn() 的 this 指向哪里呢？
+      function fn2() {
+        fn()
+      }
+      fn2() // 由于没有找到调用fn的对象，所以this会指向全局对象。答案： 浏览器：Window；Node.js：global
+
+      // （2）再把这段代码稍稍改变一下，让函数 fn2() 作为对象 obj 的属性，通过 obj 属性来调用 fn2，此时函数 fn() 的 this 指向哪里呢？
+      var obj = {fn2}
+      obj.fn2() // 这里需要注意，调用函数 fn() 的是函数 fn2() 而不是 obj。虽然 fn2() 作为 obj 的属性调用，但 fn2()中的 this 指向并不会传递给函数 fn()， 所以答案也是 window（Node.js 下是 global）。
+
+      // （3）对象 dx 拥有数组属性 arr，在属性 arr 的 forEach 回调函数中输出 this，指向的是什么呢？
+      var dx = {
+        arr: [1]
+      }
+      dx.arr.forEach(function (){
+        console.log(this) // 浏览器：Window；Node.js：global
+      })
+      /**
+        
+      */ 
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

@@ -56,6 +56,16 @@
       Symbol:
       Symbol是ES6中引入的新数据类型,它表示一个唯一的常量,通过Symbol函数来创建对应的数据类型,创建时可以添加变量描述,该变量描述在传入时会被强制转换成字符串进行存储.
 
+      Object:
+      相对于基础类型，引用类型 Object 则复杂很多。简单地说，Object 类型数据就是键值对的集合，键是一个字符串（或者 Symbol） ，值可以是任意类型的值； 
+      复杂地说，Object 又包括很多子类型，比如 Date、Array、Set、RegExp。
+      对于 Object 类型，我们重点理解一种常见的操作，即深拷贝。
+        由于引用类型在赋值时只传递指针，这种拷贝方式称为浅拷贝；
+        而创建一个新的与之相同的引用类型数据的过程称为深拷贝；
+      
+      对于 6 种基础类型，我们只需简单的赋值即可，而 Object 类型变量需要特殊操作。因为通过等号“=”赋值只是浅拷贝，要实现真正的拷贝操作则需要通过遍历键来赋值对应的值，
+      这个过程中如果遇到 Object 类型还需要再次进行遍历。
+
 
 
     */
@@ -284,22 +294,89 @@
       //   }
       // }
       getValue(KEY.alibaba);
-      
-      function fn (o) {
+
+      function fn(o) {
         console.log(o)
         const s = Symbol()
         o[s] = 'zzz'
         console.log(o.Symbol);
-        
+
       }
-      let obj = {user: {id: 1, name: 'lw'}}
+      let obj = { user: { id: 1, name: 'lw' } }
       fn(obj);
 
+      /**
+        类型转换
+        a.装箱转换：把基本类型的数据换成对应的对象过程；
+        b.拆箱转换：把数据对象转换为基本类型的过程；
 
+        下面这些常见的操作会触发隐式地类型转换，我们在编写代码的时候一定要注意。
+        运算相关的操作符包括 +、-、+=、++、* 、/、%、<<、& 等。
+        数据比较相关的操作符包括 >、<、== 、<=、>=、===。
+        逻辑判断相关的操作符包括 &&、!、||、三目运算符。
 
+      */
+      var n = 1
+      var o = new Number(n) // 显式装箱
+      console.log(o) // Number{1}
+      console.log(o.valueOf()) // 1  // 显式拆箱
+      console.log(n.toPrecision(3)) // 1.00  // 隐式装箱， 实际操作：var tmp = new Number(n);tmp.toPrecision(3);tmp = null;
+      console.log(o + 2); // 3 // 隐式拆箱，实际操作：var tmp = o.valueOf(); tmp + 2; tmp = null
 
     }
 
+    // Object
+    {
+      console.log('---------------Object--------------')
+      var arr = [undefined, null, '', 0, true, Symbol(), {}]
+      arr.map(it => {
+        console.log(typeof it) // null 有点特殊返回了 object
+      })
+
+      // 拷贝函数
+      // function clone(data) {
+      //   let result = {}
+      //   const keys = [...Object.getOwnPropertyNames(data), ...Object.getOwnPropertySymbols(data)]
+      //   if (!keys.length) return data
+      //   keys.forEach(key => {
+      //     let item = data[key]
+      //     if (typeof item === 'object' && item) {
+      //       result[key] = clone(item)
+      //     } else {
+      //       result[key] = item
+      //     }
+      //   })
+      //   return result
+      // }
+
+      // 完善
+      function clone(obj) {
+        let map = new WeakMap()
+        function deep(data) {
+          let result = {}
+          const keys = [...Object.getOwnPropertyNames(data), ...Object.getOwnPropertySymbols(data)]
+          if (!keys.length) return data
+          const exist = map.get(data)
+          if (exist) return exist
+          map.set(data, result)
+          keys.forEach(key => {
+            let item = data[key]
+            if (typeof item === 'object' && item) {
+              result[key] = deep(item)
+            } else {
+              result[key] = item
+            }
+          })
+          return result
+        }
+        return deep(obj)
+      }
+
+      let app = clone(arr)
+      console.log(app)
+
+
+    }
 
 
 
