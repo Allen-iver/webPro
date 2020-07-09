@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+</head>
+
+<body>
+
+  <div id="app">
+    <div class="mouse-move fl f12 h22 lh22 mg-r5 sms-item" @dragstart="dragStart($event, item.labelName)"
+      draggable='true' v-for="(item, index) in modelCommonList" :key="index"
+      @click="dropRelease($event, item.labelName)">
+      {{item.labelName}}
+    </div>
+
+    <div contenteditable="true" @drop="dropRelease($event)" @dragover="allowDrop($event)" ref="smsContent"
+      class="border-r4 f12 h100 pd-tb10 pd-lr10 overflow-scroll-y editable-div" id="smsContent" style="border: 1px solid red;">
+    </div>
+
+
+  </div>
+
+  <script>
+
+    var vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          modelCommonList: [
+            {id: 1, labelName: 'abc'},
+            {id: 2, labelName: 'def'}
+          ]
+        }
+      },
+      created() {
+
+      },
+      methods: {
+        insertHtmlAtCaret(html) {
+          let sel, range;
+          if (window.getSelection) {
+            // IE9 and non-IE
+            sel = window.getSelection();
+            if (sel.getRangeAt && sel.rangeCount) {
+              range = sel.getRangeAt(0);
+              range.deleteContents();
+              let el = document.createElement("div");
+              el.appendChild(html)
+              var frag = document.createDocumentFragment(), node, lastNode;
+              while ((node = el.firstChild)) {
+                lastNode = frag.appendChild(node);
+              }
+              range.insertNode(frag);
+              if (lastNode) {
+                range = range.cloneRange();
+                range.setStartAfter(lastNode);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+              }
+            }
+          } else if (document.selection && document.selection.type != "Control") {
+            // IE < 9
+            document.selection.createRange().pasteHTML(html);
+          }
+        },
+
+        //开始拖动可选字段
+        dragStart(event, name) {
+          event = event || window.event;
+          this.dragging = name; //str
+          event.dataTransfer.setData(" ", " "); //for firefox
+        },
+
+        //阻止默认事件
+        allowDrop(event) {
+          let e = event || window.event;
+          if (e && e.preventDefault) {
+            e.preventDefault();
+          } else {
+            window.event.returnValue = false;
+          }
+        },
+
+        //拖动到指定位置并释放
+        dropRelease(event, nodeValueName) {
+          event = event || window.event;
+          event.preventDefault();
+
+          let textNode = document.createElement('input');
+          textNode.className = 'mg-lr5 enabledTag';
+          textNode.type = 'button';
+          textNode.value = this.dragging || nodeValueName;
+
+          this.insertHtmlAtCaret(textNode);
+          this.dragging = '';
+        },
+
+      }
+
+    })
+
+
+
+
+
+  </script>
+
+
+</body>
+
+</html>
