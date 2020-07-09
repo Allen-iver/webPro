@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>为什么说函数是javascript的一等公民</title>
 </head>
+
 <body>
-  
+
   <script>
     /**
       数据类型与函数是很多高级语言中最重要的两个概念，前者用来存储数据，后者用来存储代码。
@@ -18,16 +20,63 @@
       this指向的应该是一个对象，更具体地说是函数执行的“上下文对象”。其次这个对象指向的是“调用它”的对象，
       如果调用它的不是对象或者对象不存在，则会指向全局对象（严格模式下为undefined）。
 
+      箭头函数
+      箭头函数和普通函数相比,有以下几个区别,在开发中应特别注意:
+        a.不绑定arguments对象,也就是说在箭头函数内部昂文arguments对象会报错;
+        b.不能用作构造器,也就是说不能通过关键字new来创建实例;
+        c.默认不会创建prototype原型属性;
+        d.不能用作Generator()函数,不能使用yeild关键字;
+
+      函数转换
+      toString()函数会在打印函数的时候调用,比如console.log()
+      valueOf()函数会在获取函数原始值的时候调用,比如加法操作等;
+      reduce() 
+      arr.reduce(function(prev,cur,index,arr){
+      ...
+      }, init);
+      arr 表示原数组；
+      prev 表示上一次调用回调时的返回值，或者初始值 init;
+      cur 表示当前正在处理的数组元素；
+      index 表示当前正在处理的数组元素的索引，若提供 init 值，则索引为0，否则索引为1；
+      init 表示初始值。
+
+      原型原型链
+      原型是Javascript的重要特征之一,可以让对象从其他对象继承功能特性,所以Javascript也被称为"基于原型的语言"
+      严格地说,原型应该是对象的属性,但函数其实也是一种特殊的对象.例如,我们对自定义的函数进行instanceof Object操作时,其结果是true
+      什么是原型和原型链?
+      原型就是对象的属性,包括被称为隐式原型的proto属性和被称为显示原型的prototype属性.
+      隐式原型通常是在创建实例的时候就会自动指向构造函数的显示原型.
+      显式原型是内置函数（比如 Date() 函数）的默认属性，在自定义函数时（箭头函数除外）也会默认生成，
+      生成的显式原型对象只有一个属性 constructor ，该属性指向函数自身。通常配合 new 关键字一起使用，
+      当通过 new 关键字创建函数实例时，会将实例的隐式原型指向构造函数的显式原型。
+      原型链: '原型对象依次向上查找,直到找到该属性或者原型对象没有指向时停止';
+      
+      new操作符实现了什么?
+      显示原型对象在使用new关键字的时候会被自动创建.
+
+      怎么通过原型链实现多层继承?
+
+      作用域
+      作用域是指赋值,取值操作的执行范围,通过作用域机制可以有效地防止变量,函数的重复定义,以及控制他们的可访问性.
+      虽然在浏览器端和 Node.js 端作用域的处理有所不同，比如对于全局作用域，浏览器会自动将未主动声明的变量提升到全局作用域，
+      而 Node.js 则需要显式的挂载到 global 对象上。又比如在 ES6 之前，浏览器不提供模块级别的作用域，
+      而 Node.js 的 CommonJS 模块机制就提供了模块级别的作用域。但在类型上，可以分为全局作用域（window/global）、
+      块级作用域（let、const、try/catch）、模块作用域（ES6 Module、CommonJS）及本课时重点讨论的函数作用域。
+
+      命名提升
+      对于使用var关键字声明的变量以及创建命名函数的时候,Javascript在解释执行的时候都会将其声明内容提升到作用域顶部,这种机制称为""命名提升".
+      
+      闭包
+      在函数内部访问外部函数作用域时就会产生闭包.闭包很有用,因为它允许将函数与其所操作的某些数据(环境)关联起来.
+      这种关联不只是跨作用域引用,也可以实现数据与函数的隔离.
 
 
 
 
-    
-    
-    
     */
 
     {
+      console.log('-----------------函数----------------')
       // 代码1
       var o = {
         fn() {
@@ -35,10 +84,10 @@
         }
       }
       o.fn() // o
-      
+
       // 代码2
       class A {
-        fn () {
+        fn() {
           console.log(this)
         }
       }
@@ -58,33 +107,276 @@
       fn2() // 由于没有找到调用fn的对象，所以this会指向全局对象。答案： 浏览器：Window；Node.js：global
 
       // （2）再把这段代码稍稍改变一下，让函数 fn2() 作为对象 obj 的属性，通过 obj 属性来调用 fn2，此时函数 fn() 的 this 指向哪里呢？
-      var obj = {fn2}
+      var obj = { fn2 }
       obj.fn2() // 这里需要注意，调用函数 fn() 的是函数 fn2() 而不是 obj。虽然 fn2() 作为 obj 的属性调用，但 fn2()中的 this 指向并不会传递给函数 fn()， 所以答案也是 window（Node.js 下是 global）。
 
       // （3）对象 dx 拥有数组属性 arr，在属性 arr 的 forEach 回调函数中输出 this，指向的是什么呢？
       var dx = {
         arr: [1]
       }
-      dx.arr.forEach(function (){
+      dx.arr.forEach(function () {
         console.log(this) // 浏览器：Window；Node.js：global
       })
       /**
-        
-      */ 
+        forEach有两个参数,第一个是回调函数,第二个是this指向的对象,这里只传入了回调函数,第二个参数没有传入,默认为undefined,所以正确答案应该是输出全局对象.
+        类似的,需要传入this指向的函数还有: every(),find(),findIndex(),map(),some(),在使用的时候需要特别注意.
+      */
 
+      //（4）前面提到通过类实例来调用函数时，this 会指向实例。那么如果像下面的代码，创建一个 fun 变量来引用实例 b 的 fn() 函数，当调用 fun() 的时候 this 会指向什么呢？
+      class B {
+        'use strict';
+        fn() {
+          console.log(this)
+        }
+      }
+      var b = new B()
+      var fun = b.fn
+      fun() // undefined // ES6下的class内部默认采用的严格模式,而严格模式下不会指定全局对象为默认调用对象,所以答案是undefined
 
+      // (5) es6新加入的箭头函数不会创建自己的this,它只会从自己的作用域链的上一层继承this.可以简单地理解为箭头函数的this继承自上层的this,但在全局环境下定义扔会指向全局对象.
+      // var arrow = {fn: () => {
+      //   console.log(this);
+      // }}
+      // arrow.fn() // 浏览器：Window；Node.js：global 
+      var arrow = {
+        fn() { // 如果要让fn()箭头函数指向arrow对象,我们还需要再加一层函数,让箭头函数的上层this指向arrow对象.
+          const a = () => console.log(this);
+          a()
+        }
+      }
+      arrow.fn() // arrow 
 
+      //（6）前面提到 this 指向的要么是调用它的对象，要么是 undefined，那么如果将 this 指向一个基础类型的数据会发生什么呢？
+      // [0].forEach(function () {
+      //   console.log(this);
+      // }, 0) // ? // 结合上一讲关于数据类型的知识，我们知道基础类型也可以转换成对应的引用对象。所以这里 this 指向的是一个值为 0 的 Number 类型对象。
 
-
+      // (7) 改变this指向的常见3中方式有bind,call,apply. call和apply用法功能基本类似,都是通过传入this指向
+      // 的对象以及参数来调用函数.区别在于传参方式,前者为逐个参数传递,后者将参数放入一个数组,以数组的形式传递.
+      // bind有些特殊,它不但可以绑定this指向也可以绑定函数参数并返回一个新的函数,放call调用新的函数时,绑定
+      // 之后的this或参数将无法再被改变.
+      function getName() {
+        console.log(this.name);
+      }
+      var b = getName.bind({ name: 'bind' })
+      b()
+      getName.apply({ name: 'apply' })
+      getName.apply({ name: 'call' })
+      // 由于 this 指向的不确定性，所以很容易在调用时发生意想不到的情况。在编写代码时，应尽量避免使用 this，
+      // 比如可以写成纯函数的形式，也可以通过参数来传递上下文对象。实在要使用 this 的话，可以考虑使用 bind 等方式将其绑定。
 
     }
 
+    {
+      console.log('--------------箭头函数--------------');
 
+      var f = (num1, num2) => {
+        return num1 * num2
+      }
+      f(2, 3) // 6
 
+      var j = job => job + 1 // 如果是一个参数可省略()
+      j(1) // 2
+      console.log(j(1));
 
+      var g = () => 'hello world'
+      g(); // hello world 没有参数时,应该写成()
 
+      // function Person() {
+      //   this.age = 0;
 
+      //   var self = this;
+      //   var timeout = setInterval(function growUp() {
+      //     self.age++;
+      //     console.log(self.age);
+      //     if (self.age === 20) {
+      //       console.log('结束');
+      //       clearInterval(timeout)
+      //       return false;
+      //     }
+      //   }, 1000);
+      // }
 
+      function Person() {
+        this.age = 0;
+
+        // var self = this;
+        var timeout = setInterval(() => {
+          this.age++;
+          console.log(this.age);
+          if (this.age === 20) {
+            clearInterval(timeout)
+          }
+        }, 1000);
+      }
+
+      // var p = new Person();
+
+    }
+
+    {
+      console.log('--------------函数转换-----------------')
+      // 实现 add(1, 2)(3, 4, 5)(6)(...) // 21
+      function add(...args) {
+        let arr = args
+        function fn(...newArgs) {
+          arr = [...args, ...newArgs]
+          return fn
+        }
+        fn.toString = fn.valueOf = function () {
+          return arr.reduce((acc, cur) => acc + parseInt(cur))
+        }
+        return fn
+      }
+
+      console.log(add(1, 2, 3)(20, 30)(50, 100)) // 156
+
+      var arr = [1, 2, 34, 5, 64, 123]
+      function getSum(total, num) {
+        // console.log(total, num)
+        return total + Math.round(num)
+      }
+      arr.reduce(getSum, 0) // 数组求和 
+
+      var k = arr.reduce(function (prev, curr) {
+        return prev + Math.round(curr)
+      }, 0)
+      console.log(k) // 229
+
+    }
+
+    {
+      console.log('---------------原型-------------')
+      function fun() { }
+      fun instanceof Object // true
+      // console.log(fun instanceof Object)
+      // 隐式原型通常是在创建实例的时候就会自动指向构造函数的显示原型.
+      var a = {}
+      a.__proto__ === Object.prototype // true
+      console.log(a.__proto__ === Object.prototype)
+      var b = new Object()
+      a.__proto__ === b.__proto__ // true
+      console.log(a.__proto__ === b.__proto__)
+
+      // 显示原型
+      function fn() { }
+      fn.prototype.constructor === fn // true
+
+      var parent = { code: 'p', name: 'parent' }
+      var child = { __proto__: parent, name: 'child' }
+      console.log(parent)
+      console.log(child)
+      console.log(parent.prototype) // undefined
+      console.log(child.name) // child
+      console.log(child.code) // p
+      console.log(child.hasOwnProperty('name')) // true
+      console.log(child.hasOwnProperty('code')) // false
+
+      // hasOwnProperty() 区分对象child的属性是否继承自原型对象;
+      // 在这个例子中，如果对象 parent 也没有属性 code，那么会继续在对象 parent 的原型对象中寻找属性 code，
+      // 以此类推，逐个原型对象依次进行查找，直到找到属性 code 或原型对象没有指向时停止。
+      // 原型链: "原型对象依次向上查找,直到找到属性或者原型对象没有指向时停止"
+
+    }
+
+    {
+      console.log('-----------原型链实现多层继承-----')
+      function A() { }
+      A.prototype.a = function () {
+        return 'a'
+      }
+      function B() { }
+      B.prototype = new A()
+      B.prototype.b = function () {
+        return 'b'
+      }
+      var c = new B()
+      console.log(c.a()); // a
+      console.log(c.b()); // b
+    }
+
+    {
+      console.log('------------命名提升------------')
+      console.log(kkb) // undefined
+      var kkb = 1
+      // console.log(b) // 报错
+      // let b = 2
+
+      fn() // 2
+      console.log(fn())
+      function fn() {
+        return 2
+      }
+
+      f(); // 1不会执行,2会执行
+      // var f = function () { // 1
+      //   console.log('123')
+      // }
+      function f() { // 2
+        console.log('123')
+      }
+
+    }
+
+    {
+      console.log('--------------闭包-------------')
+      var SingleStudent = (function () {
+        function Student() { }
+        var _student
+        return function () {
+          if (_student) return _student
+          _student = new Student()
+          return _student
+        }
+      }())
+
+      var s = new SingleStudent()
+      var s2 = new SingleStudent()
+      s === s2 // true
+      console.log(s === s2)
+      // 函数 SingleStudent 内部通过闭包创建了一个私有变量 _student，这个变量只能通过返回的匿名函数来访问，
+      // 匿名函数在返回变量时对其进行判断，如果存在则直接返回，不存在则在创建保存后返回。
+
+    }
+
+    {
+      console.log('----------经典面试题-------------')
+
+      {
+        for (var i = 0; i < 5; i++) {
+          setTimeout(() => {
+            // console.log(i) // 5次5
+          }, 1000 * i)
+        }
+      }
+      {
+        var i;
+        for (i = 0; i < 5; i++) {
+          setTimeout(() => {
+            // console.log(i) // 5次5
+          }, 1000 * i)
+        }
+      }
+
+      {
+        for (let i=0;i<5;i++) {
+          setTimeout(() => {
+            // console.log(i)
+          }, 1000*i)
+        }
+      }
+
+      {
+        for (var i=0;i<5;i++) {
+          let _i = i
+          setTimeout(() => {
+            console.log(_i)
+          }, 1000 * i)
+        }
+
+      }
+
+    }
 
 
 
@@ -98,4 +390,5 @@
 
 
 </body>
+
 </html>
