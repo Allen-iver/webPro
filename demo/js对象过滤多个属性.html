@@ -2,29 +2,54 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
 </head>
 
 <body>
 
-    <script>
-      let student={
-        age: 20,
-        name: '官人',
-        sex: "男",
-        arr: [{ id: '1', name: 'allen' }, {id: '2', name: 'cherry'}],
-      }
-      console.log(student);
+  <script>
+    let student = {
+      age: 20,
+      name: '官人',
+      sex: "男",
+      arr: [{ id: '1', name: 'allen' }, { id: '2', name: 'cherry' }],
+    }
+    console.log(student);
 
-      let {age,name, ...params} = student;
-      console.log(params);
-      
-      let info = {...student, age: 23};
-      console.log(info);
-      
+    let { age, name, ...params } = student;
+    console.log(params);
+
+    let info = { ...student, age: 23 };
+    console.log(info);
+
+
+    let arr1 = [{ id: 1, name: 'allen' }, { id: 2, name: 'allen01' }, { id: 3, name: 'allen012' }, { id: 4, name: 'allen03' },]
+    let arr2 = [{ id: 2, name: 'allen01' }, { id: 3, name: 'allen02' }, { id: 4, name: 'allen04' }, { id: 5, name: 'allen05' },]
+
+    var arr3 = [];
+    let { id, ...kpl } = arr1
+    console.log(kpl);
+    
+    let kpls = [1, 2, 3, 4, 5, 6]
+    let all = kpls.join(',')
+    console.log(all)
+    for (var i = 0; i < all.length; i++) {
+      if ( all[i].indexOf('7') != -1) {
+        console.log('123')
+      } else {
+        console.log('456')
+      }
+    }
+      // for(var i = 0; i < arr1.length; i++) {
+      //   for(var j = 0; j < arr2.length; j++) {
+
+
+      //   }
+      // }
+
       // // func1:
       // const param = (({name,sex}) => ({name, sex}))(student)
       // console.log(param) // {name: "官人"，sex: "男"}
@@ -43,8 +68,8 @@
       // console.log(person);
       // let info = {...person, age: 20};
       // console.log(info);
-      
-    </script>
+
+  </script>
 
 </body>
 

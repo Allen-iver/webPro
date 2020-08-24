@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+    /*
+      vue-router，react-router都依赖 path-to-Regexp
+
+      前端路由实现基础：
+
+      1.基于 hash 实现
+
+      前面提到当 URL 变化时浏览器会发送请求，但有一种特例，那就是 hash 值的变化不会触发浏览器发起请求。
+
+      hash 值是指 URL“#”号后面的内容，通过 location.hash 属性可以读写 hash 值，
+      这个值可以让浏览器将页面滚动到 ID 与 hash 值相等的 DOM 元素位置，不会传给服务端。
+
+      要监听它的变化也比较简单，通过监听 window 对象的 hashchange 事件就可以感知到它的变化。
+
+      2.基于 history 实现
+
+      history 提供了两个函数来修改 URL，即 history.pushState() 和 history.replaceState()，
+      这两个 API 可以在不进行刷新的情况下，来操作浏览器的历史 记录 。唯一不同的是，前者是新增一个历史记录，
+      后者是直接替换当前的历史记录。
+
+      监听 URL 变化则可以通过监听 window 对象上的 popstate 事件来实现。但需要注意的是，
+      history.pushState() 或 history.replaceState() 不会触发 popstate 事件，这时我们需要手动触发页面渲染。
+
+      总结：
+
+      vue-router 和 react-router 共同的依赖库 path-to-regexp 中的两个核心函数 pathToRegexp() 和 compile()。
+      pathToRegexp() 会先将配置的请求路径字符串拆分成令牌数组，然后再转化成正则表达式对象，
+      路由库可以通过正则表达式来进行路由匹配，从而将对应的组件渲染到页面；
+      complie() 函数会将配置的请求路径字符串转化成一个匿名函数，这个函数可以传入参数并生成一个请求路径字符串。
+
+    */ 
+
+    
+
+
+  </script>
+
+
+
+
+</body>
+</html>

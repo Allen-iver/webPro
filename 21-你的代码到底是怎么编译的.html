@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>你的代码到底是怎么编译的</title>
+</head>
+<body>
+  <script>
+
+    /*
+      你的代码到底是怎么编译的?
+
+      Node.js 的出现，越来越多前端自动化工具涌现出来，包括早期的 Grunt、Gulp 以及现在流行的 webpack。
+
+      webpack 有两个执行入口，分别是通过命令行调用的 bin/webpack.js，以及直接在代码中引用的 lib/webpack.js。
+
+      webpack() 函数内部有 3 个重要的操作：校验配置项、创建编译器、执行编译。
+    
+      在 检验 配置项时使用了 JSONSchema 来校验配置参数。在创建编译器时，用到了 tapable 模块提供的钩子机制，
+      通过触发适当的钩子事件来让对应的插件进行初始化。
+
+      在执行编译阶段，以 compiler.hooks.make 钩子事件为起始点，触发入口文件的解析工作，并调用加载器对资源进行处理，
+      然后构建成抽象语法树，将最终的抽象语法树转换成目标文件并输出到配置项指定的目录。
+    
+    */ 
+
+    
+
+
+
+
+
+  </script>
+</body>
+</html>

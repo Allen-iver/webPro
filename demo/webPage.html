@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    ul {
+      width: 500px;
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    ul li {
+      list-style: none;
+      height: 50px;
+    }
+
+    i {
+      font-style: normal;
+    }
+
+    .p-s {
+      width: 1000px;
+      margin: 0 auto;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .page-num i {
+      padding: 0 10px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div id="app">
+
+    <div class="container">
+      <ul>
+        <li v-for="(item, index) in arrData" :key="index">
+          {{item.title}}
+        </li>
+      </ul>
+
+      <div class="p-s">
+        <span>共{{pcd.dataCount}}条数据 共{{totalPage}}页</span>
+        <span>
+          每页展示 <input type="text">条
+        </span>
+        <button>
+          < </button>
+            <span class="page-num">
+              <i v-for="(item, index) in totalPage" :class="" :key="index">{{item}}</i>
+            </span>
+            <button> > </button>
+            <span>
+              跳转到第 <input type="text"> 页
+            </span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    var vm = new Vue({
+      el: '#app',
+      props: ["perPage, toPage"],
+      data() {
+        return {
+          arrData: [
+            { id: 1, title: 'web study 01', },
+            { id: 2, title: 'web study 02', },
+            { id: 3, title: 'web study 03', },
+            { id: 4, title: 'web study 04', },
+            { id: 5, title: 'web study 05', },
+            { id: 6, title: 'web study 06', },
+            { id: 7, title: 'web study 07', },
+            { id: 8, title: 'web study 08', },
+            { id: 9, title: 'web study 09', },
+            { id: 10, title: 'web study 10', },
+            { id: 11, title: 'web study 11', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+            { id: 12, title: 'web study 12', },
+
+          ],
+          dataLength: '',
+
+          currentPage: 1,
+          totalPage: 0,
+          pcd: {
+            dataCount: '',
+            perPage: 10,
+            toPage: 1,
+
+
+
+
+          },
+
+
+
+
+        }
+
+
+      },
+
+      computed: {
+        // totalPage: function () {
+        //   return Math.ceil(this.pcd.dataCount / this.pcd.perPage)
+        // }
+      },
+
+
+      created() {
+
+        this.dataLength = this.arrData.length;
+        this.pcd.dataCount = this.arrData.length;;
+        this.totalPage = Math.ceil(this.pcd.dataCount / this.pcd.perPage)
+        
+
+
+
+      },
+
+      methods: {
+
+        previousPage() {
+          if(this.currentPage < 1) {
+            this.currentPage = 1
+          } else {
+            this.currentPage--;
+          }
+        },
+
+        nextPage() {
+          if (this.currentPage > this.totalPage) {
+            this.currentPage = this.totalPage
+          } else {
+            this.currentPage++;
+          }
+        },
+
+
+
+
+      }
+
+
+
+
+
+
+
+    })
+
+
+
+
+  </script>
+
+
+
+
+</body>
+
+</html>
