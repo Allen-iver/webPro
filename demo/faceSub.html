@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>截取表情</title>
+</head>
+
+<body>
+
+  <script>
+
+    let faceLength = 0; // 字符串中[]的个数
+
+    let arr = '[可爱]我们都是好孩子[微笑][大哭][睡]w[惊吓]odsad';
+
+    let startL = [] // 开始【
+    let endR = [] // 结束 】
+
+    let finalArr = [];
+
+    console.log(arr);
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].indexOf('[') != -1) {
+        // console.log(i)
+        startL.push(i)
+        faceLength++;
+      } else if (arr[i].indexOf(']') != -1) {
+        // console.log(i)
+        endR.push(i)
+      }
+      // console.log(startL)
+      // console.log(endR)
+      // console.log(finalArr)
+    }
+
+    // let countArr = startL.concat(endR);
+    // console.log(countArr.sort(sortArr));
+
+    // let akp = countArr.sort(sortArr);
+
+    // function sortArr (a,b) {
+    //   return a - b
+    // }
+
+    console.log(startL)
+    for (var k = 0; k < arr.length; k++) {
+
+      for (var j = 0; j < startL.length; j++) {
+        if (k == startL[j]) {
+          console.log(k)
+          console.log(startL[j])
+          console.log(arr.substring(k, endR[k] + 1))
+          // console.log(endR[k]);
+          finalArr.push(arr.substring(k, endR[k] + 1))
+          // k += endR[k] + 1;
+        } else {
+          finalArr.push(arr[i])
+        }
+      }
+      // console.log(k);
+
+      // console.log(startL[j])
+      // if (k == startL[j]) {
+      //   console.log(k)
+      //   console.log(endR[k]);
+      //   finalArr.push(arr.substring(k, endR[k] + 1))
+      //   k += endR[k] + 1;
+      // } else {
+
+      //   finalArr.push(arr[k])
+
+
+      // }
+      // console.log(k)
+      // else if (k > startL[k]) {
+      //   console.log(k)
+      //   finalArr.push(arr[k])
+      // }
+
+    }
+    console.log(finalArr)
+
+    // for (let k = 0; k < arr.length; k++) {
+    //   for (let m = 0; m < startL.length; m++) {
+    //     if (i < startL[m]) {
+    //       // finalArr.push(arr[i])
+    //       console.log(i)
+    //     } else if (i == startL[m]) {
+    //       console.log(i)
+    //       console.log(endR[i]);
+    //       finalArr.push(arr.substring(i, endR[i]))
+    //     } else if (i > startL[m]) {
+    //       console.log(i)
+    //       // finalArr.push(arr[i])
+    //     }
+    //   }
+    // }
+
+
+
+
+    // console.log(startL)
+    // console.log(endR)
+    // console.log(faceLength);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // console.log(arr.length)
+    // var regex2 = /\[(.+?)\]/g; // [] 中括号
+
+    // console.log(arr.match(regex2));
+
+
+    // let str = '[事件触发人姓名][事件名称]，与[事件发生时间][任务名称]入院，请在8小时内书写书写入院病历！';
+    // console.log(str);
+    // let reg = /\[(.*?)\]/g; // 这里需要对`[`进行转义
+    // let array = []
+    // while ((temp = reg.exec(str))) {
+    //   array.push(temp[0])
+    // }
+
+    // let arr = [];
+    // for (let i = 0; i < array.length; i++) {
+    //   arr.push(array[i].substring(1, array[i].length - 1))
+    // }
+
+    // console.log(array)
+    // console.log(arr)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </script>
+
+
+
+
+
+
+</body>
+
+</html>
