@@ -1,8 +1,8 @@
 const path = require('path')
 
-
 module.exports = {
-  entry: './src/main.css',
+  mode: 'development',
+  entry: './src/main.js',
   output: {
     filename: 'bundle.js'
   },
@@ -15,6 +15,14 @@ module.exports = {
         use: [
           'style-loader',
           'css-loader'
+        ]
+      },
+      {
+        test: /\.md$/,
+        // 直接使用相对路径
+        use: [
+          'html-loader',
+          './markdown-loader'
         ]
       }
     ]
