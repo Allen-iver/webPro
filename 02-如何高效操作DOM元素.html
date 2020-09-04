@@ -4,17 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+  <script src="./demo/common.js"></script>
 </head>
 <body>
   
   <script>
 
-    const times = 10000;
-    console.time('switch');
-    for (let i = 0; i < times; i++) {
-      document.body === 1 ? console.log(1) : void 0;
-    }
-    console.timeEnd('switch'); // 打印执行时间
+    // const times = 10000;
+    // console.time('switch');
+    // for (let i = 0; i < times; i++) {
+    //   document.body === 1 ? console.log(1) : void 0;
+    // }
+    // console.timeEnd('switch'); // 打印执行时间
+
+    // timer(10);
+    
+    // console.log(timer(3));
+
+    var b = function () {
+      console.log(1)
+    } 
+    timer(3, b)
+    
+    
+
+    
+    
+            
+
 
   </script>
 
